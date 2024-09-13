@@ -8,10 +8,5 @@ setup(
         'pytesseract',
         'Pillow',
         'pypdf',
-    ],
-    entry_points={
-        'file_processing.plugins': [
-            'ocr = file_processing_ocr.ocr_decorator:OCRDecorator',
-        ],
-    },
+    ]
 )
