@@ -130,7 +130,6 @@ def test_ocr_pdf_processing(ocr_text, expected_combined, mock_pdf_processor):
         assert isinstance(result, str)
         assert result == expected_combined
 
-# New test function for real files without mocking
 @pytest.mark.parametrize("file_name", OCR_APPLICABLE_SAMPLES)
 def test_ocr_on_real_files(file_name):
     """Test OCR processing on real files without mocking."""
