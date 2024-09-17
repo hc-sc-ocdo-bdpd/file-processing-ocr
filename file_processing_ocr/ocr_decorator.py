@@ -24,7 +24,7 @@ except:
                 found = True
                 break
         if not found:
-            TesseractNotFound("Tesseract could not be found or is not installed.")
+            raise TesseractNotFound("Tesseract could not be found or is not installed.")
     elif sys.platform == 'linux':
         pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
     else:
