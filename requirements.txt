@@ -2,3 +2,4 @@ pytesseract==0.3.10
 Pillow>=10.0.0
 pypdf==4.0.0
 ipykernel==6.29.5
+file-processing-test-data @ git+https://github.com/hc-sc-ocdo-bdpd/file-processing-test-data.git@main
