@@ -13,24 +13,25 @@ try:
     pytesseract.get_tesseract_version()
 except:
     if sys.platform == 'win32':
-        possible_path = [
+        possible_paths = [
             "C:/Program Files/Tesseract-OCR/tesseract.exe",
             "C:/Program Files (x86)/Tesseract-OCR/tesseract.exe",
             Path('C:/Users') / getpass.getuser() / 'AppData/Local/Programs/Tesseract-OCR/tesseract.exe'
         ]
         found = False
-        for path in possible_path:
+        for path in possible_paths:
             if os.path.exists(path):
                 pytesseract.pytesseract.tesseract_cmd = path
                 found = True
                 break
         if not found:
-            raise TesseractNotFound("Tesseract could not be found or is not installed.")
+            raise TesseractNotFound("Tesseract could not be found or is not installed. Please install Tesseract or check the path.")
     elif sys.platform == 'linux':
         pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
+        if not os.path.exists(pytesseract.pytesseract.tesseract_cmd):
+            raise TesseractNotFound("Tesseract could not be found or is not installed. Please install Tesseract or check the path.")
     else:
-        raise TesseractNotFound("Tesseract could not be found or is not installed.")
-
+        raise TesseractNotFound("Tesseract could not be found or is not installed. Please install Tesseract or check the path.")
 
 class OCRDecorator:
     def __init__(self, processor, ocr_path: str = None) -> None:
