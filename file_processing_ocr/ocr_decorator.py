@@ -6,6 +6,7 @@ import pypdf
 import pytesseract
 from PIL import Image
 from file_processing_ocr.errors import OCRProcessingError, TesseractNotFound
+import os
 
 # Define the error message once to reduce redundancy
 error = "Tesseract could not be found or is not installed. Please install Tesseract or check the path."
