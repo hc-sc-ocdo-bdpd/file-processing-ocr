@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Clone file-processing repo to get the Dockerfile
+      run: git clone https://github.com/hc-sc-ocdo-bdpd/file-processing.git
+
+    - name: Build Docker image
+      run: docker build -t repo-y-tests ./file-processing
+
+    - name: Run tests in Docker container
+      run: docker run --rm -v ${{ github.workspace }}:/app -w /app repo-y-tests pytest tests
