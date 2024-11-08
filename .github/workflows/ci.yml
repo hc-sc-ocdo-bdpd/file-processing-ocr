@@ -7,20 +7,51 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
-  test:
+  test-file-processing-ocr:
+    name: Test file-processing-ocr
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out code
+    - name: Check out file-processing-ocr code
       uses: actions/checkout@v3
 
-    - name: Clone file-processing repo to get the Dockerfile
-      run: git clone https://github.com/hc-sc-ocdo-bdpd/file-processing.git
+    - name: Clone file-processing repository for Dockerfile
+      run: |
+        git clone https://github.com/hc-sc-ocdo-bdpd/file-processing.git
 
-    - name: Build Docker image
-      run: docker build -t repo-y-tests ./file-processing
+    - name: Build Docker image for file-processing-ocr
+      run: |
+        docker build -t file-processing-ocr-tests ./file-processing
 
-    - name: Run tests in Docker container
-      run: docker run --rm -v ${{ github.workspace }}:/app -w /app repo-y-tests pytest tests
+    - name: Run tests for file-processing-ocr
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/app -w /app file-processing-ocr-tests pytest tests
+
+  test-file-processing:
+    name: Test file-processing
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clone file-processing repository
+      uses: actions/checkout@v3
+      with:
+        repository: hc-sc-ocdo-bdpd/file-processing
+        path: file-processing
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.10.4
+
+    - name: Build Docker image for file-processing
+      run: |
+        cd file-processing
+        docker build -t file-processing-tests .
+
+    - name: Run tests for file-processing
+      run: |
+        docker run --rm file-processing-tests pytest tests/unit
+        docker run --rm file-processing-tests pytest tests/integration
